@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <!-- Background Image filling the whole screen -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/loginpagebackgroundimage" />
+
+    <!-- Logo anchored to top -->
+
+    <!-- Login content -->
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="319dp"
+        android:layout_height="250dp"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="48dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/loginscreenlogo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="230dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp"> <!-- Push down to make space for logo -->
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="s2310163"
+            android:textAlignment="center"
+            android:textColor="#0F0202"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="342dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="#180202"
+            android:textColorHint="#160303" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="342dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#101010" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="331dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#2105F6"
+            android:text="Login"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
+            android:text="forgot password ?"
+            android:textColor="#050101" />
+
+    </LinearLayout>
+
+
+</FrameLayout>
+
+
