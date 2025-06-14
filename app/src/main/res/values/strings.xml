@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sandaruwan</string>
+    <string name="temperature_background">Temperature background image</string>
 </resources>

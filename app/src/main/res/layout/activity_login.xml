@@ -2,11 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-
-    <!-- Background Image filling the whole screen -->
+    <!-- Background Image -->
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
@@ -14,10 +12,7 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/loginpagebackgroundimage" />
 
-    <!-- Logo anchored to top -->
-
-    <!-- Login content -->
-
+    <!-- Logo -->
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="319dp"
@@ -27,13 +22,14 @@
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/loginscreenlogo" />
 
+    <!-- Login Form -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="230dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="24dp"> <!-- Push down to make space for logo -->
+        android:padding="24dp">
 
         <TextView
             android:id="@+id/tvWelcome"
@@ -42,31 +38,33 @@
             android:layout_marginBottom="32dp"
             android:text="s2310163"
             android:textAlignment="center"
-            android:textColor="#0F0202"
+            android:textColor="#0D0C0C"
             android:textSize="24sp" />
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="342dp"
             android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
+            android:background="@drawable/rounded_edittext_transparent"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:padding="12dp"
-            android:textColor="#180202"
-            android:textColorHint="#160303" />
+            android:textColor="#EDE9E9"
+            android:textColorHint="#AAF6F3F3"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="342dp"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_edittext"
+            android:background="@drawable/rounded_edittext_transparent"
             android:hint="Password"
             android:inputType="textPassword"
             android:padding="12dp"
-            android:textColor="#000000"
-            android:textColorHint="#101010" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAFFFFFF"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnLogin"
@@ -84,10 +82,10 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="166dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="forgot password ?"
-            android:textColor="#050101" />
+            android:text="forgot password?"
+            android:textColor="#FFFFFF" />
 
         <LinearLayout
             android:layout_width="296dp"
@@ -120,10 +118,6 @@
                 android:contentDescription="Twitter Login"
                 android:src="@drawable/twittericon" />
         </LinearLayout>
-
     </LinearLayout>
 
-
 </FrameLayout>
-
-
