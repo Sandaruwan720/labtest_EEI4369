@@ -14,10 +14,14 @@ public class LoginActivity extends AppCompatActivity {
     EditText email, password;
     Button loginButton;
 
+    DatabaseHelper databaseHelper;  // DB Helper instance
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        databaseHelper = new DatabaseHelper(this);
 
         email = findViewById(R.id.etEmail);
         password = findViewById(R.id.etPassword);
@@ -30,15 +34,21 @@ public class LoginActivity extends AppCompatActivity {
                 String passwordText = password.getText().toString().trim();
 
                 if (!emailText.isEmpty() && !passwordText.isEmpty()) {
-                    //  Navigate to MapActivity
-                    Intent intent = new Intent(LoginActivity.this, MapActivity.class);
-                    startActivity(intent);
-                    finish(); // Optional: closes LoginActivity so user can't go back with Back button
+                    boolean isInserted = databaseHelper.insertData(emailText, passwordText);
+                    if (isInserted) {
+                        Toast.makeText(LoginActivity.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+
+                        // Proceed to next activity (e.g. MapActivity)
+                        Intent intent = new Intent(LoginActivity.this, MapActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Data saving failed", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(LoginActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 }
