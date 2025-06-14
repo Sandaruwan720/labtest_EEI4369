@@ -7,7 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,94 +15,113 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class TemperatureActivity extends AppCompatActivity implements SensorEventListener {
 
-    private TextView tvTemperature;
-    private SensorManager sensorManager;
-    private Sensor ambientTempSensor;
-    private MediaPlayer mediaPlayer;
-    private boolean isPlaying = false;
-
+    private TextView tvTemperature, tvSeekValue;
+    private SeekBar seekBarTemp;
+    private float currentTemp = 24f;
     private final float TEMP_THRESHOLD = 63.0f;
+    private MediaPlayer mediaPlayer;
+
+    private SensorManager sensorManager;
+    private Sensor tempSensor;
+    private boolean isSensorAvailable = false;
+    private boolean isManualOverride = false; // Track manual SeekBar change
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_temperatue); // Match your layout name
+        setContentView(R.layout.activity_temperatue);
 
         tvTemperature = findViewById(R.id.tvTemperature);
+        tvSeekValue = findViewById(R.id.tvSeekValue);
+        seekBarTemp = findViewById(R.id.seekBarTemp);
 
-        // Initialize Sensor Manager and ambient temperature sensor
+        mediaPlayer = MediaPlayer.create(this, R.raw.warning);
+
+        updateTemperatureViews(currentTemp);
+        seekBarTemp.setProgress((int) currentTemp);
+
+        // Sensor setup
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
-            ambientTempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+            tempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+            isSensorAvailable = tempSensor != null;
         }
 
-        if (ambientTempSensor == null) {
-            Toast.makeText(this, "Ambient Temperature Sensor not available", Toast.LENGTH_LONG).show();
-        }
+        // SeekBar listener
+        seekBarTemp.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    isManualOverride = true;
+                    currentTemp = progress;
+                    updateTemperatureViews(currentTemp);
+                    checkTemperatureWarning();
+                }
+            }
 
-        // Load the warning audio from res/raw
-        mediaPlayer = MediaPlayer.create(this, R.raw.warning);
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (ambientTempSensor != null) {
-            sensorManager.registerListener(this, ambientTempSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if (isSensorAvailable) {
+            sensorManager.registerListener(this, tempSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(this);
-        stopAudio();
+        if (isSensorAvailable) {
+            sensorManager.unregisterListener(this);
+        }
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
-            float temperature = event.values[0];
-            tvTemperature.setText(String.format("%.1f°C", temperature));
-
-            if (temperature > TEMP_THRESHOLD) {
-                playAudio();
-                Toast.makeText(this, "Warning! High Temperature!", Toast.LENGTH_SHORT).show();
-            } else {
-                stopAudio();
-            }
+        if (!isManualOverride) {
+            currentTemp = event.values[0];
+            updateTemperatureViews(currentTemp);
+            seekBarTemp.setProgress((int) currentTemp);
+            checkTemperatureWarning();
         }
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Not used
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+    private void updateTemperatureViews(float temperature) {
+        String text = (int) temperature + "°C";
+        tvTemperature.setText(text);
+        tvSeekValue.setText(text);
     }
 
-    private void playAudio() {
-        if (mediaPlayer != null && !isPlaying) {
-            mediaPlayer.start();
-            isPlaying = true;
+    private void checkTemperatureWarning() {
+        if (currentTemp > TEMP_THRESHOLD) {
+            playWarningSound();
+            Toast.makeText(this, "Temperature too high!", Toast.LENGTH_SHORT).show();
+        } else {
+            stopWarningSound();
         }
     }
 
-    private void stopAudio() {
-        if (mediaPlayer != null && isPlaying) {
+    private void playWarningSound() {
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    private void stopWarningSound() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             mediaPlayer.seekTo(0);
-            isPlaying = false;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.release();
-            mediaPlayer = null;
         }
     }
 }

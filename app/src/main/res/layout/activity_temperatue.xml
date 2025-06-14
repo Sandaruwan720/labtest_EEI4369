@@ -2,12 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/temperatureLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <!-- Background Image fills entire screen -->
+    <!-- Background Image -->
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
@@ -15,20 +13,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/tempereturebackground"
         android:contentDescription="@null" />
-
-    <!-- Title -->
-    <TextView
-        android:id="@+id/titleTemp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Temperature"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Circular Temperature Display -->
     <TextView
@@ -40,36 +24,37 @@
         android:textSize="36sp"
         android:textColor="#FFFFFF"
         android:background="@drawable/circle_temp_background"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/titleTemp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- SeekBar -->
-    <SeekBar
-        android:id="@+id/seekBarTemp"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="24"
-        android:layout_marginTop="280dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@id/titleTemp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:theme="@style/Widget.AppCompat.SeekBar" />
-
-    <!-- Temperature value -->
+    <!-- Temperature value above SeekBar -->
     <TextView
         android:id="@+id/tvSeekValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="24°C"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/seekBarTemp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarTemp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- SeekBar at bottom -->
+    <SeekBar
+        android:id="@+id/seekBarTemp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:max="100"
+        android:progress="24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.807" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
