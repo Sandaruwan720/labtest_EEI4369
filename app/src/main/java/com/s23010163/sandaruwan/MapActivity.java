@@ -1,6 +1,7 @@
 package com.s23010163.sandaruwan;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -68,10 +69,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        // Temperature button (dummy action for now)
-        btnTemp.setOnClickListener(v ->
-                Toast.makeText(this, "Temperature feature coming soon", Toast.LENGTH_SHORT).show()
-        );
+        // Navigate to TemperatureActivity when button is clicked
+        btnTemp.setOnClickListener(v -> {
+            Intent intent = new Intent(MapActivity.this, TemperatureActivity.class);
+            startActivity(intent);
+        });
 
         // Show current location
         btnCurrentLocation.setOnClickListener(v -> showCurrentLocation());
