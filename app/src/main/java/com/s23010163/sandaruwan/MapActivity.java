@@ -72,6 +72,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         // Navigate to TemperatureActivity when button is clicked
         btnTemp.setOnClickListener(v -> {
             Intent intent = new Intent(MapActivity.this, TemperatureActivity.class);
+
             startActivity(intent);
         });
 
